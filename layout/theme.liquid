@@ -1,0 +1,200 @@
+<!doctype html>
+<!--[if IE 9]> <html class="ie9 no-js" lang="{{ shop.locale }}"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js" lang="{{ shop.locale }}"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=no">
+  <meta name="theme-color" content="{{ settings.color_button }}">
+  <link rel="canonical" href="{{ canonical_url }}">
+  
+  <!-- meta -->
+  {% include 'social-meta-tags' %}
+  
+  {% if page_description %}
+    <meta name="description" content="{{ page_description | escape }}">
+  {% endif %}
+  
+  <!-- favicon -->
+  {% if settings.favicon != blank %}
+    <link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png">
+  {% endif %}
+
+  {% capture seo_title %}
+    {{ page_title }}
+    {% if current_tags %}
+      {%- assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags -}}
+    {% endif %}
+    {% if current_page != 1 %}
+      &ndash; {{ 'general.meta.page' | t: page: current_page }}
+    {% endif %}
+    {% unless page_title contains shop.name %}
+      &ndash; {{ shop.name }}
+    {% endunless %}
+  {% endcapture %}
+  <title>{{ seo_title }}</title>
+
+
+  
+  
+
+  {{ 'main.min.css' | asset_url | stylesheet_tag }}
+  
+  {{ '//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js' | script_tag }}
+  {{ 'api.jquery.js' | shopify_asset_url | script_tag }}
+  {{ 'handlebars.min.js' | asset_url | script_tag }}
+
+  <script>
+    var theme = {
+      strings: {
+        addToCart: {{ 'products.product.add_to_cart' | t | json }},
+        soldOut: {{ 'products.product.sold_out' | t | json }},
+        unavailable: {{ 'products.product.unavailable' | t | json }},
+        showMore: {{ 'general.filters.show_more' | t | json }},
+        showLess: {{ 'general.filters.show_less' | t | json }}
+      },
+      moneyFormat: {{ shop.money_format | json }}
+    }
+
+    document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+  </script>
+
+  <!--[if (lte IE 9) ]>{{ 'match-media.min.js' | asset_url | script_tag }}<![endif]-->
+
+  {% if template.directory == 'customers' %}
+    <!--[if (gt IE 9)|!(IE)]><!--><script src="{{ 'shopify_common.js' | shopify_asset_url }}" defer="defer"></script><!--<![endif]-->
+    <!--[if lte IE 9]><script src="{{ 'shopify_common.js' | shopify_asset_url }}"></script><![endif]-->
+  {% endif %}
+
+  <!--[if (gt IE 9)|!(IE)]><!--><script src="{{ 'vendor.js' | asset_url }}" defer="defer"></script><!--<![endif]-->
+  <!--[if lte IE 9]><script src="{{ 'vendor.js' | asset_url }}"></script><![endif]-->
+  
+  <!--[if (gt IE 9)|!(IE)]><!--><script src="{{ 'vendor.min.js' | asset_url }}" defer="defer"></script><!--<![endif]-->
+  <!--[if lte IE 9]><script src="{{ 'vendor.min.js' | asset_url }}"></script><![endif]-->
+
+  <!--[if (gt IE 9)|!(IE)]><!--><script src="{{ 'theme.js' | asset_url }}" defer="defer"></script><!--<![endif]-->
+  <!--[if lte IE 9]><script src="{{ 'theme.js' | asset_url }}"></script><![endif]-->
+  <script type="text/javascript">
+    $(document).bind('mobileinit',function(){
+        $.mobile.page.prototype.options.keepNative = "select,input,label";
+        $.mobile.ajaxEnabled = false; 
+    }); 
+  </script>
+    
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.min.js"></script>
+  
+  
+  <!--[if (gt IE 9)|!(IE)]><!--><script src="{{ 'main.min.js' | asset_url }}" defer="defer"></script><!--<![endif]-->
+  <!--[if lte IE 9]><script src="{{ 'main.min.js' | asset_url }}"></script><![endif]-->
+
+  {{ content_for_header }}
+</head>
+
+<body class="template-{{ template | split: '.' | first }} init" data-template="{{ template }}" data-module-init="body">
+
+  {% unless linklists[section.settings.main_linklist] != blank %}
+  <a data-fade="in" href="{{ shop.url }}" id="main-hamburger" class="hamburger">
+	 <div>
+    	<span></span>
+    	<span></span>
+	</div>
+  </a>
+  {% endunless %}
+  
+  <div id="ajax-cart" class="ajax__cart disabled">
+	  {% include 'ajax-cart-template' %}
+  </div>
+  
+  <button data-fade="in" data-module-init="cart-count" class="no-barba site-header__cart {% if cart.item_count == 0 %}cart-hidden{% endif %}">
+      <div id="CartCount" class="site-header__cart-count">
+        <span>{{ cart.item_count }}</span>
+      </div>
+  </button>
+  
+  
+  {% if section.settings.logo %}
+    <a href="/" itemprop="url" class="site-header__logo-image{% if section.settings.align_logo == 'center' %} site-header__logo-image--centered{% endif %}">
+      {% capture image_size %}{{ section.settings.logo_max_width | escape }}x{% endcapture %}
+      <img src="{{ section.settings.logo | img_url: image_size }}"
+           srcset="{{ section.settings.logo | img_url: image_size }} 1x, {{ section.settings.logo | img_url: image_size, scale: 2 }} 2x"
+           alt="{{ section.settings.logo.alt | default: shop.name }}"
+           itemprop="logo">
+    </a>
+  {% else %}
+    <a data-fade="in" class="site-header__logo-link main__logo-link" data-module-init="home-link" href="/" itemprop="url">{{ shop.name }}</a>
+  {% endif %}
+  
+  
+  {% section 'header' %}
+  {% section 'frontpage-collection' %}
+
+  <div class="page-container" id="barba-wrapper">
+	  <div class="barba-container">
+		    <main class="main-content " id="MainContent" role="main">
+		      {{ content_for_layout }}
+		    </main>
+		</div>
+
+    
+
+  </div>
+  
+  
+  <div class="background-content"></div>
+  
+  
+  {% include 'footer' %}
+  
+  {{ 'fastclick.min.js' | asset_url | script_tag }}
+  {{ 'timber.js' | asset_url | script_tag }}
+  {{ 'option_selection.js' | shopify_asset_url | script_tag }}
+  
+
+    {% comment %}
+      Template-specific js
+    {% endcomment %}
+    <script>
+      {% if resetPassword %}
+        $(function() {
+          timber.resetPasswordSuccess();
+        });
+      {% endif %}
+    </script>
+
+    {% comment %}
+      Ajaxify your cart with this plugin.
+      Documentation:
+        - http://shopify.com/timber#ajax-cart
+    {% endcomment %}
+    {% if settings.ajax_cart_method == "drawer" %}
+      {{ 'handlebars.min.js' | asset_url | script_tag }}
+      {% include 'ajax-cart-template' %}
+      {{ 'ajax-cart.js' | asset_url | script_tag }}
+      <script>
+        
+        
+        jQuery(function($) {
+          
+          function testFunc(){
+            console.log('%c testFunc', 'color:blue')
+          }
+          
+          ajaxCart.init({
+            formSelector: '#AddToCartForm',
+            cartContainer: '#CartContainer',
+            addToCartSelector: '#AddToCart',
+            cartCountSelector: '#CartCount',
+            cartCostSelector: '#CartCost',
+            moneyFormat: {{ shop.money_format | json }}
+          });
+        });
+        jQuery(document.body).on('afterCartLoad.ajaxCart', function(evt, cart) {
+          // Bind to 'afterCartLoad.ajaxCart' to run any javascript after the cart has loaded in the DOM
+          timber.RightDrawer.open();
+        });
+      </script>
+    {% endif %}
+  
+  
+</body>
+</html>

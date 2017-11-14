@@ -1,0 +1,30 @@
+{%- assign social_icons = false -%}
+
+{% if
+  settings.social_twitter_link != blank
+  or settings.social_facebook_link != blank
+  or settings.social_pinterest_link != blank
+  or settings.social_instagram_link != blank
+  or settings.social_tumblr_link != blank
+  or settings.social_snapchat_link != blank
+  or settings.social_youtube_link != blank
+  or settings.social_vimeo_link != blank
+  or template.name == 'article'
+  or template.name == 'blog'
+%}
+  {%- assign social_icons = true -%}
+{% endif %}
+
+<footer class="site-footer site__footer disabled" role="contentinfo" style="opacity:0;">
+  <div class="footer-nav__page-content">
+    <div class="footer-mobile-header">
+      <h2>{{ pages['policies'].title }}&mdash;</h2>
+      <button class="mobile-cart-close">
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  	{{ pages['policies'].content }}
+  </div>
+</footer>
+

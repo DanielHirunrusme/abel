@@ -1,0 +1,246 @@
+nav.footer-nav {
+  @include flexbox;
+  padding:$g-tb-margin $g-lr-margin;
+  @include justify-content(space-between);
+	@include font-size($p-smaller-font-sizes);
+	@include line-height($p-smaller-line-height);
+  
+  div, p {
+		@include font-size($p-smaller-font-sizes);
+		@include line-height($p-smaller-line-height);
+  }
+  
+  .menu-open & {
+    @include opacity(0);
+    pointer-events:none;
+  }
+}
+
+.footer-shown {
+  .site-footer {
+    
+    @include respond-to('mobile-portrait') {
+      -webkit-transform:translate(0px, 100%) !important;
+      -ms-transform:translate(0px, 100%) !important;
+      transform:translate(0px, 100%) !important;
+    }
+    
+    
+    
+    @include respond-to('mobile-landscape') {
+      -webkit-transform:translate(0px, 100%) !important;
+      -ms-transform:translate(0px, 100%) !important;
+      transform:translate(0px, 100%) !important;
+    }
+    
+  }
+}
+
+.site-footer {
+	@include transition($transition-duration transform);
+  
+  bottom: 0;
+  position: fixed;
+  z-index: 3;
+  left:0;
+  width:100%;
+  
+  ::selection {
+      color: $c-black;
+      background: $c-white;
+  }
+  
+  @include respond-to('mobile') {
+    background:#000;
+    height:100%;
+  }
+    
+  .footer-nav__page-content {
+    @include respond-to(mobile-portrait) {
+      height:100%;
+      overflow-y:scroll;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    @include respond-to(mobile-landscape) {
+      height:100%;
+      overflow-y:scroll;
+      -webkit-overflow-scrolling: touch;
+    }
+  }
+  
+  &.disabled {
+    transition-duration: 0s;
+    @include opacity(0);
+    pointer-events:none;
+  }
+  
+	h4 {
+		margin-bottom:1em !important;
+	}
+	
+	tr {
+		width:29.3%;
+		float:left;
+		margin-right:1.74%;
+    
+    @include respond-to('mobile') {
+      float:none;
+    }
+		
+		&:first-child {
+			margin-left:$g-lr-margin;
+		}
+		
+		&:last-child {
+			margin-right:0;
+		}
+    
+    @include respond-to('mobile') {
+      width:auto;
+      margin:0 $g-lr-margin 2.3em $g-lr-margin;
+      
+  		&:last-child {
+  			margin-right:$g-lr-margin;
+        margin-bottom:0;
+  		}
+    }
+
+   
+	}
+	
+	a, div, p, span,  h4 {
+		@include font-size($p-smaller-font-sizes);
+		@include line-height($p-smaller-line-height);
+		
+	}
+  
+  h4 {
+    font-weight:bold;
+    @extend %caps;
+  }
+	
+	table, thead, tbody, tfoot, tr, th, td {
+	    display: block; /* Set all of our table elements to display type block */
+		  @extend %white-text;
+		  border:none;
+      
+		a, div, p, span, h1, h2, h3, h4 {
+			@extend %white-text;
+		}
+		
+		h1, h2, h3 {
+			text-transform:uppercase;
+			margin-bottom:1em;
+			letter-spacing:.04em !important;
+		}
+	}
+  
+  .footer-mobile-header {
+    margin:0 $g-lr-margin;
+    position:relative;
+    color:$c-white;
+    display:none;
+    margin-bottom:2em;
+    @include respond-to(mobile-portrait) {
+      display:block;
+    }
+
+    @include respond-to(mobile-landscape) {
+      display:block;
+    }
+    
+    button {
+      z-index:1;
+      top: .6em;
+      right:0;
+    }
+  }
+	
+	.footer-nav__page-content {
+		//display:none;
+		background:$c-black;
+		padding:$g-tb-margin 0;
+		float:left;
+    //height:100%;
+		padding-bottom:$g-tb-margin * 2;
+    
+    /*
+    @include respond-to(mobile-portrait) {
+      padding-bottom:$g-tb-margin;
+    }
+
+    @include respond-to(mobile-landscape) {
+      padding-bottom:$g-tb-margin;
+    }
+    */
+    
+    @include respond-to('mobile') {
+      padding:0;
+      
+      .footer-mobile-header {
+        padding-top:$g-tb-margin;
+      }
+      
+      table {
+        padding-bottom:$g-tb-margin;
+      }
+      
+      .mobile-cart-close {
+        top:5.8vh;
+      }
+    }
+	}
+	
+	a.footer-nav__link--main {
+		@include transition($transition-duration transform);
+		padding-left:$g-lr-margin;
+		position:absolute;
+		top:0;
+	}
+	
+	.footer-nav {
+		@include transition($transition-duration margin-left);
+		width:100%;
+		
+		
+		
+		li {
+			
+			
+			div {
+				padding-left:$g-lr-margin;
+				background:$c-black;
+				@extend %white-text;
+				float:left;
+			}
+		}
+	}
+	
+	.copyright {
+		position:absolute;
+		right:$g-lr-margin;
+		top:0;
+	}
+}
+
+.menu-open {
+	
+	.site-footer {
+		//display:none;
+    pointer-events:none;
+    @include opacity(0);
+	}
+	
+	a.footer-nav__link--main {
+		//@include transform(translate(50vw, 0));
+	}
+	
+	.footer-nav {
+		//margin-left:50vw;
+	}
+}
+
+.cart {
+	
+}

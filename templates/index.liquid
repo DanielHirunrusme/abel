@@ -1,0 +1,55 @@
+<!-- /templates/index.liquid -->
+{% comment %}
+
+  This is the homepage of your site.
+
+  More info on global variables (available on all templates):
+    - http://docs.shopify.com/themes/liquid-variables/global
+{% endcomment %}
+
+{% comment %}
+  Use class grid-uniform to have evenly sized columns clear
+  each other properly at each breakpoint.
+{% endcomment %}
+<div class="grid-uniform page-template" data-template="index">
+
+  {% comment %}
+
+  {% for collection in collections %}
+  	<div class="{{collection.template_suffix}} collection-holder collection-{{ collection.title }}">
+	  {% for product in collection.products limit:4 %}
+
+	    {% comment %}
+	      Change the grid item width by using classes from the grid in
+	      the grid_item_width variable.
+
+	      Example:
+	        - {% assign grid_item_width = 'large--one-third medium--one-half' %}
+	    {% endcomment %}
+	    {% assign grid_item_width = 'large--one-quarter medium--one-half' %}
+	    {% include 'product-grid-item' %}
+
+	  {% else %}
+	    {% comment %}
+	      For onboarding new users to your theme, we add some default products and onboarding tutorials to help populate their store
+	    {% endcomment %}
+	    {% unless emptyState %}
+	      {{ 'theme-onboarding.css' | global_asset_url | stylesheet_tag }}
+	      {% assign emptyState = true %}
+	    {% endunless %}
+
+	    {% include 'onboarding-featured-products' %}
+
+	  {% endfor %}
+  	</div>
+  {% endfor %}
+  
+  {% endcomment %}
+
+</div>
+
+
+
+
+
+

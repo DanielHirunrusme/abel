@@ -1,0 +1,93 @@
+button {
+	
+	background:none;
+	border:none;
+	outline:none;
+	
+}
+
+%btn-speed {
+  transition-duration:$transition-duration/4;
+}
+
+
+.btn {
+	@include transition($button-duration background);
+  transition-property:background, color;
+	@extend %p-smaller;
+	//@extend %white-text;
+	@extend %smaller-uppercase;
+	@extend %btn-speed;
+	background:transparent;
+  border:1px solid $c-black;
+	padding: .5em 2.5em;
+  color:$c-global;
+  font-weight:bold;
+  font-size:.9em;
+	//border:1px solid transparent;
+  
+  
+	
+  @include respond-to(mobile-portrait) {
+    width: 100%;
+    padding: 1em 0;
+  }
+  
+  @include respond-to(mobile-landscape) {
+    width: 100%;
+    padding: 1em 0;
+  }
+  
+  &:hover {
+		background:$c-black;
+    @extend %white-text;
+    
+    @include respond-to('mobile') {
+      background:transparent;
+      color:$c-global;
+    }
+  }
+  
+	&.hover_effect {
+		background:$c-black;
+    color:#fff !important;
+    
+    @include respond-to('mobile') {
+  		background:$c-black;
+      color:#fff !important;
+    }
+	}
+  
+  
+}
+
+
+.checkout-btn {
+  @include transition($button-duration color)
+  transition-property:color, background;
+  
+  @extend %btn-speed;
+  
+  background:transparent;
+  color:$c-white;
+  font-weight:bold;
+  padding: .5em 0;
+  margin: 4% 0 8% 0;
+  border:1px solid $c-white;
+  
+  &:hover {
+    background-color:$c-white;
+    color:$c-black;
+  }
+  
+  @include respond-to(mobile-portrait) {
+    width: 100%;
+    padding: 1em 0;
+  }
+  
+  @include respond-to(mobile-landscape) {
+    width: 100%;
+    padding: 1em 0;
+  }
+  
+}

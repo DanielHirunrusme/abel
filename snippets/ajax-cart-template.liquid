@@ -1,0 +1,373 @@
+<!-- /snippets/ajax-cart-template.liquid -->
+{% comment %}
+
+  This snippet provides the default handlebars.js templates for
+  the ajax cart plugin. Use the raw liquid tags to keep the
+  handlebar.js template tags as available hooks.
+
+{% endcomment %}
+		<div class="cart-header">
+			<h2>Your Cart<span class="cart-full-message">&mdash; </span><span class="cart-empty-message"> is empty.</span></h2>
+      <button class="mobile-cart-close">
+        <span></span>
+        <span></span>
+      </button>
+		</div>
+  <form action="/cart" method="post" novalidate class="cart table-wrap">
+	<div class="cart-table">
+		
+		
+    <div class="cart-titles">
+      <div class="cart-col-one">Item</div>
+      <div class="cart-col-two">Quantity</div>
+      <div class="cart-col-three">Price</div>
+    </div>
+    
+		<div class="cart-items">
+			
+			{% for item in cart.items %}
+				<div class="cart-row">
+          <div class="cart-item cart-col-one">
+					<div class="cart-row-image">
+		                <a href="{{ item.url | within: collections.all }}" class="cart__image" style="background-image:url({{ item | img_url: 'large' }})">
+		                  {% comment %}
+		                    More image size options at:
+		                      - http://docs.shopify.com/themes/filters/product-img-url
+		                  {% endcomment %}
+		                  <img src="{{ item | img_url: 'large' }}" alt="{{ item.title | escape }}">
+		                </a>
+					</div>
+					
+					<div class="cart-row-title">
+						<div class="cart-row-link">
+		                <a href="{{ item.url }}">
+		                  {{ item.product.title }},{% unless item.variant.title contains 'Default' %}
+		
+		               <span> {{ item.variant.title }}, {{ item.price | money }}</span>
+		                {% endunless %}
+		                </a>
+						</div>
+		                
+					</div>
+          </div><!-- cart-items -->
+					<div class="cart-row-actions  cart-col-two">
+			              
+			     
+			           
+			              
+			         
+			         	  <div class="quantity">
+							<button class="subtract no-barba" data-id="{{ item.id }}">
+								<span></span>
+								<span></span>
+							</button>
+			              	<input type="number" data-price="{{ item.price }}" name="updates[]" id="updates_{{ item.key }}" data-id="{{ item.key }}" value="{{ item.quantity }}">
+							<button class="add no-barba" data-id="{{ item.id }}">
+								<span></span>
+								<span></span>
+							</button>
+					  	  </div>
+			           
+			              
+						  <div class="remove-container">
+			              <a href="/cart/change?line={{ forloop.index }}&amp;quantity=0" class="cart__remove no-barba" data-id="{{ item.id }}">
+			                <span>{{ 'cart.general.remove' | t }}</span>
+			              </a>
+					  	  </div>
+						  
+					</div>
+          
+          <div class="cart-row-price">
+            {% if item.original_line_price != item.line_price %}
+            <span class="cart-item__original-price"><s>{{ item.original_line_price | money }}</s></span>
+            {% endif %}
+            
+              {{ item.line_price | money_without_trailing_zeros }}
+           
+            {% for discount in item.discounts %}
+              <span class="cart-item__discount">{{ discount.title }}</span>
+            {% endfor %}
+          </div>
+          
+          
+				</div><!-- cart-row -->
+			{% endfor %}
+		
+		</div><!-- cart-items -->
+		
+	    <div class="cart-checkout">
+	      {% if settings.cart_notes_enable %}
+	        <div class="cart-notes">
+	          <label for="CartSpecialInstructions">{{ 'cart.general.note' | t }}</label>
+	          <textarea name="note" class="input-full" id="CartSpecialInstructions">{{ cart.note }}</textarea>
+	        </div>
+	      {% endif %}
+	      <div class="cart-checkout-buttons">
+          
+  				<div>
+  			        <!--<button type="submit" name="update" class="btn--secondary update-cart">{{ 'cart.general.update' | t }}</button>-->
+                <div class="cart__subtotal-holder">
+    		        <div class="cart__subtotal-title body-smaller cart-col-two">{{ 'cart.general.subtotal' | t }}</div>
+                <div class="cart__subtotal">{{ cart.total_price | money_without_trailing_zeros }}</div>
+              </div>
+    		        {% if cart.total_discounts > 0 %}
+    		          {% assign savings = cart.total_discounts | money_without_trailing_zeros %}
+	        
+    		            <span class="cart-subtotal__savings">{{ 'cart.general.savings_html' | t: price: savings }}</span>
+	         
+    		        {% endif %}
+			
+    		        <span class="shipping-info">{{ 'cart.general.shipping_at_checkout' | t }}</span>
+  				</div>
+          
+          
+				
+				
+        <button type="submit" name="checkout" class="btn checkout-btn">{{ 'cart.general.checkout' | t }}</button>
+				
+			</div>
+		</div>
+	</div><!-- cart-table -->
+  </form>
+  
+  
+  
+  
+<script>
+	
+  var total_items = {{ cart.item_count }}
+	$('.cart__remove').on('click', removeClick);
+	$('.add').on('click', addItemClick);
+	$('.subtract').on('click', removeItemClick);
+	
+	function updateCart(){
+		console.log('updateCart');
+		
+		Shopify.getCart(function(json){
+			console.log(json);
+			createCart(json);
+			//updatePrice();
+		});
+	}
+	
+	function updatePrice(price){
+    console.log('price ' + price)
+		var formatted_price = Shopify.formatMoney(price, '{{ shop.money_format }}');
+    formatted_price = formatted_price.split('.00').join('');
+		$('.cart__subtotal').text(formatted_price);
+		//console.log('updatePrice ' + formatted_price);
+    
+    $('.cart-row').each(function(){
+      $input = $(this).find('input[type="number"]');
+      
+      updated_price = Number($input.data('price')) * Number($input.val());
+      console.log(updated_price)
+      var formatted_price = Shopify.formatMoney(updated_price, '{{ shop.money_format }}')
+      
+      $(this).find('.cart-row-price').text( formatted_price );
+    });
+    
+	}
+	
+	function createCart(json) {
+		//var data = json;
+		$('.cart-row').remove();
+    $('.ajax__cart').addClass('updating');
+
+		for(var i=0; i<json.items.length; i++) {
+			var title = json.items[i].product_title;
+			var variant_title = json.items[i].variant_title;
+			var id = json.items[i].id;
+			var price = Shopify.formatMoney(json.items[i].price, '{{ shop.money_format }}');
+      price = price;
+      var naked_price = json.items[i].price;
+			var image = json.items[i].image;
+			var qty =  json.items[i].quantity;
+			var key = json.items[i].key;
+			var totalPrice = Shopify.formatMoney(json.items[i].line_price, '{{ shop.money_format }}');
+      totalPrice = totalPrice.split('.00').join('');
+			var html = '<div class="cart-row"><div class="cart-item cart-col-one"><div class="cart-row-image"><a href="/products/issue-n-3?variant=45192306836" class="cart__image" style="background-image:url('+image+')"><img src="'+image+'" alt="Issue Nº3 - 1"></a></div><div class="cart-row-title"><div class="cart-row-link"><a href="/products/issue-n-3?variant=45192306836">'+title+', <span>'+variant_title+', '+price+'</span></a></div></div></div><div class="cart-row-actions cart-col-two"><div class="quantity"><button class="subtract no-barba" data-id="'+id+'"><span></span><span></span></button><input data-price="'+naked_price+'" type="number" name="updates[]" id="updates_45192306836:11722f350407eaa92503ae2d3c22d30f" data-id="'+key+'" value="'+qty+'"><button class="add no-barba" data-id="'+id+'"><span></span><span></span></button> </div><div class="remove-container"><a href="/cart/change?line=1&amp;quantity=0" class="cart__remove no-barba" data-id="'+id+'"><span>Remove</span></a></div></div><div class="cart-row-price">'+totalPrice+'</div></div>';
+			
+			
+			$('.cart-items').append( html );
+		}
+		
+		updatePrice(json.total_price);
+		
+		$('.cart__remove').off('click').on('click', removeClick);
+		$('.add').off('click').on('click', addItemClick);
+		$('.subtract').off('click').on('click', removeItemClick);
+    
+    if($('.ajax__cart').length > 0) {
+      var cart_height = $('.ajax__cart').height();
+
+      $('.ajax__cart').css('-webkit-transform', 'translate(0px, -'+ cart_height +'px)')
+                      .css('-ms-transform', 'translate(0px, -'+ cart_height +'px)')
+                      .css('transform', 'translate(0px, -'+ cart_height +'px)')
+      
+    }
+    
+    setTimeout(function(){
+      $('.ajax__cart').removeClass('updating');
+      openCart();
+    }, 100);
+    
+    
+    
+	}
+	
+	function addItemClick(e){
+		e.preventDefault();
+		var $form = $(e.currentTarget).closest('form');
+		var $quantity = $(e.currentTarget).parent();
+		var $quantityInput = $quantity.find('input');
+		var productId = parseInt($(this).attr('data-id'));
+		
+		Shopify.addItem(productId, 1, function(){
+		    // Do Something here once the product is added
+		  updateCartCount();
+			updateQuantityCount($quantityInput, Number($quantityInput.val()) + 1);
+		});
+	}
+	
+	function removeItemClick(e){
+		e.preventDefault();
+		var $form = $(e.currentTarget).closest('form');
+		var $quantity = $(e.currentTarget).parent();
+		var $quantityInput = $quantity.find('input');
+		var productId = parseInt($(this).attr('data-id'));
+		var $row = $(e.currentTarget).closest('.cart-row');
+		
+		if(Number($quantityInput.val()) - 1 == 0) {
+			$row.remove();
+		}
+		
+		Shopify.changeItem(productId, $quantityInput.val()-1, function(){
+		    // Do Something here once the product is added
+		    updateCartCount();
+			updateQuantityCount($quantityInput, Number($quantityInput.val()) - 1);
+			
+		});
+	}
+	
+	function updateQuantityCount(elem, val) {
+		$(elem).val(val);
+    
+	}
+	
+	function removeClick(e) {
+		e.preventDefault();
+		var $form = $(e.currentTarget).closest('form');
+		var $row = $(e.currentTarget).closest('.cart-row');
+		
+		var productId = parseInt($(this).attr('data-id'));
+		
+    
+    console.log('removeClick: productID ' + productId);
+		
+		Shopify.removeItem(productId, function(){
+		    // Do Something here once the product is added
+			$row.remove();
+      positionCart();
+			updateCartCount();
+			
+		});
+		
+		 
+	}
+  
+  function openCart(){
+    
+    var cart_height = $('.ajax__cart').height();
+    
+    $('.ajax__cart').css('-webkit-transform', 'translate(0px, -'+ cart_height +'px)')
+                     .css('-ms-transform', 'translate(0px, -'+ cart_height +'px)')
+                     .css('transform', 'translate(0px, -'+ cart_height +'px)')
+    
+    
+    $('body').css('-webkit-transform', 'translate(0px, '+ cart_height +'px)')
+                         .css('-ms-transform', 'translate(0px, '+ cart_height +'px)')
+                         .css('transform', 'translate(0px, '+ cart_height +'px)')
+    
+    $(window).on('click', winClick);
+    
+  }
+  
+  function winClick(e){
+    $(window).off('click', winClick);
+    if(e.clientY > $('.ajax__cart').height()) {
+      hideCart();
+    }
+  }
+  
+  function hideCart(){
+    $('.ajax__cart').removeClass('shown');
+    $('body').removeClass('cart-shown');
+    var cart_height = $('.ajax__cart').height();
+    var yPos = 0;
+    
+    $('.ajax__cart').css('-webkit-transform', 'translate(0px, -'+ cart_height +'px)')
+                     .css('-ms-transform', 'translate(0px, -'+ cart_height +'px)')
+                     .css('transform', 'translate(0px, -'+ cart_height +'px)')
+    
+    
+    $('body').css('-webkit-transform', 'translate(0px, '+ yPos +'px)')
+                         .css('-ms-transform', 'translate(0px, '+ yPos +'px)')
+                         .css('transform', 'translate(0px, '+ yPos +'px)')
+  }
+  
+  function positionCart(){
+    var cart_height = $('.ajax__cart').height();
+    var row_count = $('.cart-row').length;
+
+    if (row_count > 0)
+    $('body, .ajax__cart').addClass('no-trans');
+    
+    $('.ajax__cart').css('-webkit-transform', 'translate(0px, -'+ cart_height +'px)')
+                     .css('-ms-transform', 'translate(0px, -'+ cart_height +'px)')
+                     .css('transform', 'translate(0px, -'+ cart_height +'px)')
+    
+    
+    $('body').css('-webkit-transform', 'translate(0px, '+ cart_height +'px)')
+                         .css('-ms-transform', 'translate(0px, '+ cart_height +'px)')
+                         .css('transform', 'translate(0px, '+ cart_height +'px)')
+    //$('body').removeClass('no-trans');
+    
+    setTimeout(function(){
+      $('body, .ajax__cart').removeClass('no-trans');
+    }, 100);
+  }
+	
+	function updateCartCount(){
+   		jQuery.getJSON('/cart.js', function(cart) {
+			var $cart = $('.site-header__cart');
+			var $cartCount = $cart.find('span');
+        	 $cartCount.html(cart.item_count);
+			 
+           total_items = cart.item_count;
+       
+			 updatePrice(cart.total_price);
+			 
+			 if(cart.item_count > 0) {
+         $('.ajax__cart').removeClass('empty');
+				 $cart.removeClass('cart-hidden');
+         
+			 } else {
+        
+         var cart_height = -$('.ajax__cart').height();
+         
+         $('.ajax__cart').css('-webkit-transform', 'translate(0px, '+ cart_height +'px)')
+                         .css('-ms-transform', 'translate(0px, '+ cart_height +'px)')
+                         .css('transform', 'translate(0px, '+ cart_height +'px)')
+         
+         $('body').css('-webkit-transform', 'translate(0px, 0px)')
+                         .css('-ms-transform', 'translate(0px, 0px)')
+                         .css('transform', 'translate(0px, 0px)')
+         
+         $('.ajax__cart').addClass('empty').removeClass('shown');
+				 $cart.addClass('cart-hidden');
+			 }
+   		});
+	}
+	  
+</script>

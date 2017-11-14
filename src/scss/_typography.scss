@@ -1,0 +1,343 @@
+%globalText {
+	font-family:'graphik', Helvetica, Arial, sans-serif;
+	@include font-size($p-font-sizes); 
+	@include line-height($p-line-height); 
+	color:$c-black;
+}
+
+body {
+	@extend %globalText;
+	-webkit-font-smoothing:antialiased;
+	//text-shadow: 0px 0px 2px rgba(0, 0, 3, 0.6);
+}
+
+b, strong {
+	font-weight:normal !important;
+}
+
+h1, h2, h3, h4, h5, h6, p, a, select, input, label, textarea, span, time {
+	
+	letter-spacing: initial !important;
+	word-spacing:initial;
+}
+
+span, time, a {
+	word-spacing:initial;
+}
+
+a {
+	
+	color:$c-black;
+	text-decoration:none;
+	outline:none;
+	font-weight:normal;
+	
+	&:hover, &:focus {
+		color:$c-black;
+	}
+		
+} 
+
+p {
+  a:hover {
+    border-bottom:1px solid $c-white;
+    padding-bottom:.1em;
+  }
+  
+}
+
+.site-header__logo-link {
+	font-family:'canela';
+	@include font-size($logo-font-sizes); 
+	@include line-height($logo-line-height); 
+	letter-spacing:-.02em !important;
+}
+
+%white-links {
+	color:$c-white;
+}
+
+.site-footer a {
+	color:#000;
+}
+
+a.disableAnimation {
+	@extend .noTransition;
+}
+
+.disable-link {
+	pointer-events:none;
+}
+
+a, a:active, a:focus, input:focus {
+	outline: none !important;
+}
+
+::-moz-selection { /* Code for Firefox */
+    color: $c-white;
+    background: $c-black;
+}
+
+::selection {
+    color: $c-white;
+    background: $c-black;
+}
+
+li {
+	list-style:none;
+}
+
+address {
+	font-style:normal; 
+}
+
+h1, h2, h3, h4, h5, h6, p, input, select {
+	font-weight:normal;	
+	//color:$c-global;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	//font-family: 'f';
+}
+
+ 
+%p {
+	@extend %globalText;
+	@include font-size($p-font-sizes); 
+	@include line-height($p-line-height); 
+} 
+p {
+	margin:0 auto;	
+	@extend %globalText;
+}
+ 
+p {
+	@include font-size($p-font-sizes); 
+	@include line-height($p-line-height); 
+}
+
+%p-smaller {
+	@include font-size($p-smaller-font-sizes); 
+	@include line-height($p-smaller-line-height); 
+}
+
+%smaller-uppercase {
+	text-transform:uppercase;
+	letter-spacing:.05em !important;
+}
+
+%h1 {
+	@include font-size($h1-font-sizes); 
+	@include line-height($h1-line-height); 	
+	font-family:'canela';
+	//font-style:italic;
+}
+
+h1 {
+	@extend %h1;
+}
+
+%h2 {
+	@include font-size($h2-font-sizes); 
+	@include line-height($h2-line-height); 	
+	letter-spacing:0.01em !important;
+  word-spacing: .04em;
+	font-family:'canela';
+}
+
+%h3 {
+	@include font-size($h3-font-sizes); 
+	@include line-height($h3-line-height); 	
+	letter-spacing:0.05em !important;
+	
+	font-family: 'canela'
+}
+
+h2, .h2 {
+	@extend %h2;
+	text-transform:none;
+	
+}
+
+h3, .h3 {
+	@extend %h3;
+  font-style:italic;
+}
+
+h4, .h4 {
+	@extend %p;
+}
+
+.h1, .h2, .h3, .h4, .h5, .h6 {
+	//font-family:'f', Helvetica, Arial, sans-serif;
+}
+
+%smaller-caps-spacing {
+	letter-spacing: .02em !important;
+}
+
+hr {
+	border:none;
+	border-top:1px solid $c-dark-gray;
+}
+
+li {
+	line-height:2.8em;
+	
+}
+
+%textInput {
+	
+	background:none;
+	border:none;
+	color:$c-white;
+}
+
+%caps {
+  letter-spacing:.02em !important;
+  font-size:.9em;
+  text-transform:uppercase;
+  
+  @include respond-to('mobile') {
+    //font-size:.8em;
+  }
+}
+
+%white-text {
+	color:$c-white;
+}
+
+%white-link {
+  color:$c-white;
+  
+  &:hover {
+    border-bottom:1px solid $c-white;
+    padding-bottom:.1em;
+  }
+}
+
+.headerLabel {
+	margin-top:30px;
+}
+
+/*
+h1 {
+	font-size:25px;
+	line-height:27px;
+	
+	@include break(ipad) { 
+		font-size:2.30769em;
+		line-height:40px;
+	} 
+	
+	@include break(laptop) { 
+		font-size:2.30769em;
+		line-height:40px;
+	} 
+	
+	@include break(desktop) { 
+		font-size:2.30769em;
+		line-height:40px;
+	} 
+}
+*/
+
+
+/*
+h2 {
+	text-transform:uppercase;
+	font-size:17px;
+	line-height:26px;
+	
+	@include break(ipad) { 
+		font-size:17px;
+		line-height:26px;
+	} 
+	
+	@include break(laptop) { 
+		font-size:17px;
+		line-height:26px;
+	} 
+	
+	@include break(desktop) { 
+		font-size:25px;
+		line-height:33px;
+	} 
+}
+*/
+
+.center {
+	text-align:center;
+}
+
+.caps {
+  @extend %caps;
+  /*
+	text-transform:uppercase;
+	letter-spacing:.08em !important;
+	font-size:.9em;
+  
+  @include respond-to('mobile') {
+    font-size:.8em;
+  }
+  */
+}
+
+%smaller-caps {
+	text-transform:uppercase;
+	letter-spacing:.01em !important;
+	
+	@include font-size($p-smaller-font-sizes); 
+	@include line-height($p-smaller-line-height); 
+}
+
+%small-caps, .small-caps {
+    font-variant: small-caps;
+    text-transform: lowercase;
+	letter-spacing: 1px !important;
+	
+	
+}
+
+%muted-text {
+  font-size:.8em;
+  color:#7b7b7b;
+}
+
+%borders {
+	border:5px solid $c-white;
+	
+	@include respond-to(mobile-portrait) {
+		border:2px solid $c-white;
+	}
+
+	@include respond-to(mobile-landscape) {
+		border:2px solid $c-white;
+	}
+}
+
+
+.mobile-break {
+	display:none !important;
+	
+}
+
+.fulljustify {
+	height: 1.5em;
+	line-height: 1.5em;
+	text-align: justify;
+	text-align-last: justify;
+}
+.fulljustify:after {
+	content: " ";
+	display: inline-block;
+	width: 100%;
+}
+
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}

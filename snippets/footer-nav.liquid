@@ -1,0 +1,36 @@
+
+<nav class="footer-nav" data-module-init="footer-nav">
+  {% for link in linklists.footer.links %}
+    {%- assign child_list_handle = link.title | handleize -%}
+
+    {% if linklists[child_list_handle].links != blank %}
+      <li class="footer-nav--has-dropdown{% if link.active %} footer-nav--active{% endif %}">
+        <a href="{{ link.url }}" class="footer-nav__link footer-nav__link--main" aria-has-popup="true" aria-expanded="false" aria-controls="footerNavLabel-{{ child_list_handle }}">
+          {{ link.title }}
+          {% include 'icon-chevron-down' %}
+          <span class="visually-hidden">{{ 'layout.navigation.expand' | t }}</span>
+        </a>
+		
+		
+
+        <div class="footer-nav__dropdown" id="footerNavLabel-{{ child_list_handle }}">
+          <ul>
+            {% for childlink in linklists[child_list_handle].links %}
+              <li {% if childlink.active %}class="footer-nav--active"{% endif %}>
+                
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </li>
+    {% else %}
+       <a href="{{ link.url }}" class="{% if pages[link.title].content != '' %} footer-nav__link {% endif %} footer-nav__link--main" target="_blank">{{ link.title }}</a>
+    {% endif %}
+  {% endfor %}
+  
+  
+  <div class="copyright">
+    <p> &copy; 2017 {{ shop.name }}</p>
+  </div>
+  
+</nav>

@@ -1,0 +1,43 @@
+.shop-nav.cart-link {
+	font-family:'BeaufortW01-Regular';
+	position:absolute;
+	bottom:6vw;
+	left:$g-lr-margin;
+	font-size:1.9vw;
+	z-index:99999999;
+	
+	@include respond-to(mobile-portrait) {
+		display:none;
+	}
+	
+	@include respond-to(mobile-landscape) {
+		display:none;
+	}
+}
+
+.shop-nav.info-link {
+	position:absolute;
+	bottom:$g-tb-margin;
+	left:10vw;
+	@include font-size($f-global-size-sm);
+	font-variant: small-caps;
+	text-transform:lowercase;
+	z-index:99999999;
+	color:$c-white;
+	
+	@include respond-to(mobile-portrait) {
+		display:none;
+	}
+	
+	@include respond-to(mobile-landscape) {
+		display:none;
+	}
+	
+	&:hover {
+		color:$c-black;
+	}
+}
+
+.shop-nav.active {
+	color:$c-black;
+}

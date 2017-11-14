@@ -1,0 +1,179 @@
+.mobile-nav-header {
+	display:none;
+    z-index: 999999999;
+    position: absolute;
+	width:100%;
+	top:0;
+	left:0;
+	height:15vw;;
+	
+	@include flex-direction(row);
+	@include justify-content(space-between);
+	@include align-items(center);
+	@include align-content(center);
+	
+	@include respond-to(mobile-portrait) {
+		@include flexbox;
+		
+		.hamburger{
+			display:block;
+		}
+	}
+
+	@include respond-to(mobile-landscape) {
+		@include flexbox;
+		
+		.hamburger{
+			display:block;
+		}
+	}
+	
+	.hamburger {
+		position:relative;
+		top:0;
+		left:0;
+		width:15vw;
+	}
+	
+	.cart-count-holder {
+		//width:15vw;
+		font-family:'BeaufortW01-Regular';
+		font-size:8vw;
+		padding-top: 2vw;
+	    padding-right: 5vw;
+		
+		@include respond-to(mobile-landscape) {
+			//width:11vw;
+			
+			&:hover, &:focus {
+				color:$c-white;
+				* {
+					color:$c-white;
+				}
+			}
+		}
+		
+		@include respond-to(mobile-portrait) {
+			//width:11vw;
+			
+			&:hover, &:focus {
+				color:$c-white;
+				* {
+					color:$c-white;
+				}
+			}
+		}
+		
+		
+		.cart-count-inner {
+			padding-right:$g-mobile-lr-margin;
+		}
+		
+		.cart-count {
+			
+		}
+	}
+	
+	.gc-logo {
+	    width: 52vw;
+	    display: block;
+	    margin-top: 3.4vw;
+		
+		img {
+			width:100%;
+		}
+	}
+	
+	.hamburger {
+		height:15vw;
+		
+		
+		
+		.bars {
+			margin-left:$g-mobile-lr-margin;
+			display:block;
+			
+			span {
+			    height: 3px;
+			    background: $c-white;
+			    width: 25px;
+			    margin-top: 7px;
+			    display: block;
+				
+				&:first-child {
+					margin-top:0;
+				}
+			}
+		}
+		
+		.close {
+			span {
+				
+			}
+		}
+	}
+	
+}
+
+
+.show-mobile-menu {
+	.mobile-nav-header .hamburger .bars span {
+		background:$c-black;
+	}
+}
+
+
+.mobile-nav-drawer {
+	background:$c-background;
+	display:none;
+    z-index: 999999997;
+    position: absolute;
+    height: 100%;
+	width:50vw;
+	top:0;
+	left:-50vw;
+	
+	//@include transition(.5s left);
+	@include transition(.5s transform)
+	
+	@include respond-to(mobile-portrait) {
+		display:block;
+	}
+	
+	@include respond-to(mobile-landscape) {
+		display:block;
+	}
+	
+	.left-menu {
+		position:relative;
+	}
+	
+	#mobile-collections-menu {
+		margin-top:22vw;
+		margin-bottom: 8vw;
+		margin-left:$g-mobile-lr-margin;
+	}
+	
+	* { 
+		text-transform:uppercase;
+	}
+	
+}
+
+
+.js-drawer-open {
+	.mobile-nav-header {
+		.cart-count-holder {
+			* {
+				color:$c-black;
+			}
+		}
+	}
+}
+
+.show-mobile-menu {
+	.mobile-nav-drawer {
+		//left:0;
+		@include translate(50vw, 0);
+	}
+}

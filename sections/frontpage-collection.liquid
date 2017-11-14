@@ -1,0 +1,44 @@
+<!-- frontpage-collection.liquid -->
+<div class="frontpage-content-holder">
+<div class="grid-uniform page-template" data-template="template-index">
+
+  {% comment %}
+    Loop through products in your Frontpage collection.
+    This collection is created by default, but you must add products to it.
+  {% endcomment %}
+  
+  {% for collection in collections %}
+  	<div class="{{collection.template_suffix}} collection-holder collection-{{ collection.title }}">
+	  {% for product in collection.products limit:4 %}
+
+	    {% comment %}
+	      Change the grid item width by using classes from the grid in
+	      the grid_item_width variable.
+
+	      Example:
+	        - {% assign grid_item_width = 'large--one-third medium--one-half' %}
+	    {% endcomment %}
+	    {% assign grid_item_width = 'large--one-quarter medium--one-half' %}
+	    {% include 'product-grid-item' %}
+
+	  {% else %}
+	    {% comment %}
+	      For onboarding new users to your theme, we add some default products and onboarding tutorials to help populate their store
+	    {% endcomment %}
+	    {% unless emptyState %}
+	      {{ 'theme-onboarding.css' | global_asset_url | stylesheet_tag }}
+	      {% assign emptyState = true %}
+	    {% endunless %}
+
+	    {% include 'onboarding-featured-products' %}
+
+	  {% endfor %}
+  	</div>
+  {% endfor %}
+  
+  <div class="page-dummy"></div>
+
+</div>
+
+{% include 'footer-nav' %}
+</div>

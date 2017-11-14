@@ -1,0 +1,23 @@
+.fade-in {
+	@include opacity(1);
+}
+
+*[data-fade="in"] {
+  
+  @include transition($button-duration all);
+  @include opacity(0);
+  
+  &.fade-in {
+    @include opacity(1);
+  }
+  
+}
+
+.noTransition, .no-trans {
+    -moz-transition: none !important;
+    -webkit-transition: none !important;
+    -o-transition: none !important;
+    transition: none !important;
+}
+
+

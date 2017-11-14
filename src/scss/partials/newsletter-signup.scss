@@ -1,0 +1,51 @@
+.newsletter-signup {
+	
+	position:relative;
+	margin-top:.5em;
+	border-bottom:1px solid $c-white;
+	width:60%;
+	min-width:200px;
+	
+  @include respond-to(mobile-portrait) {
+    width:100%;
+  }
+
+  @include respond-to(mobile-landscape) {
+    width:100%;
+  }
+  
+	.newsletter-signup-container {
+		
+		position:relative;
+		line-height:2.8;
+    
+		input {
+			@extend %textInput;
+		} 
+		
+		input[type="submit"] {
+			@include transition($transition-duration opacity);
+			@include opacity(.5);
+		    z-index: 1;
+		    text-transform: uppercase;
+		    color: white;
+		    position: absolute;
+			background:$c-black;
+		    //line-height: 0;
+        top:.7em;
+		    //bottom: 1.4em;
+		    right: 0;
+        
+        @include respond-to('mobile') {
+          bottom:0;
+          top:0;
+        }
+			
+			&:hover {
+				@include opacity(1);
+			}
+		}
+		
+	}
+	
+}

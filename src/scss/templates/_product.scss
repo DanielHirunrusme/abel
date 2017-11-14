@@ -1,0 +1,373 @@
+body[data-template="product"] {
+	.main-content {
+		//padding-top:12%;
+    .site-header__logo-link{
+      @include opacity(0);
+      
+      @include respond-to('mobile') {
+        display:none;
+      }
+      
+      @include respond-to(mobile-portrait) {
+        @include opacity(.2);
+      }
+  
+      @include respond-to(mobile-landscape) {
+        @include opacity(.2);
+      }
+      
+      &:hover, &.clicked {
+        @include opacity(1);
+      }
+    }
+	}
+	
+	
+}
+
+
+.photo-position {
+	position:fixed;
+  @include transition($transition-duration opacity);
+  @include opacity(0);
+	//left:$g-lr-margin;
+	//margin-left:-20px;
+	top:50%;
+	//display:none;
+	width: 70px;
+  
+  
+  @include respond-to(mobile-portrait) {
+    position:relative;
+    top:0px !important;
+    width:100%;
+  }
+
+  @include respond-to(mobile-landscape) {
+    position:relative;
+    top:0px !important;
+    width:100%;
+  }
+  
+  &.show {
+    @include opacity(1);
+  }
+  
+	button {
+    
+		width:20px;
+    height: 18px;
+		margin-bottom:5px;
+    position:relative;
+    left:2.15vw;
+		
+		margin-left:-2px;
+    display:block;
+    text-align:center;
+    
+    @include respond-to('mobile') {
+      padding:10px 0;
+    }
+    
+    span {
+      @include transition($button-duration background);
+      height:100%;
+      width:1px;
+      display:block;
+      background:$c-light-gray;
+      
+      @include respond-to('mobile') {
+        height: 1px;
+        width: 100%;
+        
+      }
+    }
+    
+    @include respond-to(mobile-portrait) {
+      width: 30px;
+      height: 2px;
+      margin-right:8px;
+      margin-bottom: 0px;
+      position: relative;
+      display: inline-block;
+      left: $g-lr-margin
+    }
+
+    @include respond-to(mobile-landscape) {
+      width: 30px;
+      height: 2px;
+      margin-left:8px;
+      margin-bottom: 0px;
+      position: relative;
+      display: inline-block;
+      left: $g-lr-margin
+    }
+    
+		&.active, &:hover, &.selected {
+      span {
+        background:$c-black;
+      }
+		}
+	}
+}
+
+.selector-wrapper {
+  display:none !important;
+}
+
+.product-container {
+	
+  margin-top:12vw;
+  
+  @include respond-to(mobile-portrait) {
+    margin-top:0;
+    //height:100%;
+  }
+  
+  @include respond-to(mobile-landscape) {
+    margin-top:0;
+    //height:100%;
+  }
+  
+  .product-single {
+    @include respond-to(mobile-portrait) {
+      //height:100%;
+    }
+  
+    @include respond-to(mobile-landscape) {
+      //height:100%;
+    }
+  }
+  
+  .mobile-product-photos {
+    display:none;
+    height:50%;
+    width:100%;
+    position:relative;
+    overflow-x:hidden;
+    -webkit-overflow-scrolling: touch;
+    //white-space: nowrap;
+    
+    @include respond-to(mobile-landscape) {
+      //height:90%;
+    }
+    
+    .mobile-product-image {
+      float:left;
+      height:50vh;
+      width:100vw;
+      background-size:cover;
+      background-position: center center;
+      
+      @include respond-to(mobile-landscape) {
+        //height:90%;
+      }
+    }
+    
+    .mobile-product-photos-inner {
+      height:100%;
+      
+      
+     
+    }
+    
+    @include respond-to(mobile-portrait) {
+      display:block;
+    }
+  
+    @include respond-to(mobile-landscape) {
+      display:block;
+    }
+  }
+  
+	.product-photos {
+		width:67.85vw;
+		margin-left:$g-lr-margin;
+    
+    .product-photo {
+      background-size:cover;
+      
+      position:relative;
+      
+      img.real-photo {
+        @include opacity(0);
+      }
+      
+      img.image-hidden {
+        @include opacity(0);
+      }
+      
+      img.loaded {
+        @include opacity(1);
+      }
+      
+      .thumb-photo {
+        position:absolute;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        overflow:hidden;
+        background-size:cover;
+        
+        &.portrait {
+          width:68%;
+        }
+
+      }
+    }
+		
+    @include respond-to(mobile-portrait) {
+      margin-left:0;
+      width:100%;
+      display:none;
+    }
+    
+    @include respond-to(mobile-landscape) {
+      margin-left:0;
+      width:100%;
+      display:none;
+    }
+    
+		img {
+			@include transition($transition-duration opacity);
+      margin-bottom:$g-tb-margin * 2;
+			width:100%;
+			@include opacity(0);
+      
+			&.portrait {
+				width:68%;
+			}
+      
+      @include respond-to(mobile-portrait) {
+        margin-bottom:0;
+        width:100%;
+        
+  			&.portrait {
+  				width:100%;
+  			}
+      }
+    
+      @include respond-to(mobile-landscape) {
+        margin-bottom:0;
+        width:100%;
+        
+  			&.portrait {
+  				width:100%;
+  			}
+      }
+		}
+	}
+	
+	#ProductPrice {
+		margin-bottom:1em;
+		display:block;
+	}
+	
+	.grid__item {
+		width:45%;
+		margin-left:$g-lr-margin;
+	}
+	
+	.product-variants-holder {
+		margin:1em 0;
+		
+		.product-variants-title {
+		    width: 10em;
+		    display: inline-block;
+        
+        @include respond-to('mobile') {
+          width:7.5em;
+        }
+		}
+	
+		.product-variants {
+			display:inline-block;
+		
+			li {
+				display:inline-block;
+			
+				input[type="radio"] {
+					display:none;
+				}
+			
+				label {
+					@extend %p-smaller;
+					@include transition($button-duration opacity);
+          transition-duration:.1s;
+					@include opacity(.3);
+					cursor:pointer;
+					
+					&.selected, &:hover {
+            transition-duration:$button-duration;
+						@include opacity(1);
+					}
+				}
+				
+				&:last-child {
+					.comma {
+						display:none;
+					}
+				}
+				
+			}
+			
+			
+			
+		}
+	}
+	
+	#AddToCart {
+		margin-top:2em;
+	}
+	
+	
+	.product-description-container {
+		@include flexbox;
+		@include flex-direction(column);
+		@include justify-content(center);
+		
+		position:fixed;
+		left:58.5vw;
+		width:(41.5vw - $g-lr-margin);
+		top:0;
+		height:100%;
+    
+    @include respond-to(mobile-portrait) {
+      width: auto;
+      padding:0 $g-lr-margin;
+      position: relative;
+      left: 0;
+      height:auto !important;
+      margin-top:2em;
+      top:0 !important;
+    }
+    
+    @include respond-to(mobile-landscape) {
+      width: auto;
+      padding:0 $g-lr-margin;
+      position: relative;
+      left: 0;
+      height:auto !important;
+      top:0 !important;
+      margin-top:2em;
+    }
+		
+		.product-description {
+			@extend %p-smaller;
+      
+      p {
+        margin-bottom:1em;
+        
+        &:last-child {
+          margin-bottom:0;
+        }
+      }
+			
+			p, span {
+				@extend %p-smaller;
+			}
+		}
+	}
+	
+}

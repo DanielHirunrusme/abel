@@ -1,0 +1,58 @@
+body, html {
+	height:100%;
+	-webkit-font-smoothing: antialiased;
+	width:100%;
+	left:0;
+}
+
+body {
+
+	@include transition($transition-duration transform)
+	//background-color:#000;
+	//overflow:hidden;
+	
+	overflow:hidden;
+  
+  &.footer-shown {
+    @include respond-to('mobile-portrait') {
+      -webkit-transform:translate(0px, -100%) !important;
+      -ms-transform:translate(0px, -100%) !important;
+      transform:translate(0px, -100%) !important;
+    }
+    
+    @include respond-to('mobile-landscape') {
+      -webkit-transform:translate(0px, -100%) !important;
+      -ms-transform:translate(0px, -100%) !important;
+      transform:translate(0px, -100%) !important;
+    }
+    
+  }
+	
+}
+
+body[data-template="product"] {
+  overflow:hidden;
+}
+
+.scrollHack {
+	display:none;
+	
+	@include break('ipad') {
+		
+		//background:red;
+		//z-index:999999;
+		display: block;
+		height: 100vh;
+		padding-top: 100vh; width:100%;
+		float: left;position:absolute; left:0;
+		top:0;
+	}
+} 
+
+
+
+*:before, *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
